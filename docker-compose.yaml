@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+    container_name: drf_app
+    command: >
+      sh -c "python blogPlatform/manage.py migrate &&
+             python blogPlatform/manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - POSTGRES_DB=blogDB
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PG_HOST=db
+      - PG_PORT=5432
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      - POSTGRES_DB=blogDB
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
