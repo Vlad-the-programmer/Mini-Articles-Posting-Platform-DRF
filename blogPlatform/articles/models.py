@@ -8,6 +8,8 @@ from .managers import ArticleManager
 
 
 User = get_user_model()
+
+
 class Article(BaseModel):
     """Article model representing blog posts"""
     author = models.ForeignKey(

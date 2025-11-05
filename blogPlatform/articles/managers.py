@@ -1,4 +1,4 @@
-from django.db import models
+from django.db.models import Count
 
 from blogPlatform.common.managers import SoftDeleteManager
 
@@ -12,5 +12,5 @@ class ArticleManager(SoftDeleteManager):
 
     def with_likes_count(self):
         """Annotate articles with likes count"""
-        return self.annotate(likes_count=models.Count('likes'))
+        return self.annotate(likes_count=Count('likes'))
 

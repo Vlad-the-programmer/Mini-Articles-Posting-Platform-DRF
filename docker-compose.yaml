@@ -13,13 +13,10 @@ services:
     working_dir: /app
     ports:
       - "8000:8000"
+    env_file:
+      - .env
     environment:
-      - DEBUG=True
-      - POSTGRES_DB=blogDB
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - PG_HOST=db
-      - PG_PORT=5432
+      - PYTHONPATH=/app:/app/blogPlatform
     depends_on:
       - db
     networks:
@@ -28,10 +25,8 @@ services:
   db:
     image: postgres:15
     container_name: postgres_db
-    environment:
-      - POSTGRES_DB=blogDB
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+    env_file:
+      - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:

@@ -1,9 +1,26 @@
-from django.urls import include, path
+from django.conf import settings
+from django.urls import  path, re_path
+from dj_rest_auth.registration.views import RegisterView
+from dj_rest_auth.views import LoginView, LogoutView, UserDetailsView
 
 app_name = 'users'
 
 
 urlpatterns = [
-    path('', include('dj_rest_auth.urls')),
-    path('registration/', include('dj_rest_auth.registration.urls')),
+    path('', RegisterView.as_view(), name='rest_register'),
+    re_path(r'login/?$', LoginView.as_view(), name='rest_login'),
+    # URLs that require a user to be logged in with a valid session / token.
+    re_path(r'logout/?$', LogoutView.as_view(), name='rest_logout'),
+    re_path(r'user/?$', UserDetailsView.as_view(), name='rest_user_details'),
 ]
+
+
+if settings.USE_JWT:
+    from rest_framework_simplejwt.views import TokenVerifyView
+
+    from dj_rest_auth.jwt_auth import get_refresh_view
+
+    urlpatterns += [
+        re_path(r'token/verify/?$', TokenVerifyView.as_view(), name='token_verify'),
+        re_path(r'token/refresh/?$', get_refresh_view().as_view(), name='token_refresh'),
+    ]

@@ -27,8 +27,13 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    # Local apps
-    'common.apps.CommonConfig',
+    # Local apps (using full path)
+    'blogPlatform.common.apps.CommonConfig',
+    'blogPlatform.users.apps.UsersConfig',
+    'blogPlatform.articles.apps.ArticlesConfig',
+    'blogPlatform.comments.apps.CommentsConfig',
+    'blogPlatform.likes.apps.LikesConfig',
+
 
     # Third-party apps
     'allauth',
@@ -42,11 +47,6 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_spectacular',
 
-    # Apps
-    'users.apps.UsersConfig',
-    'articles.apps.ArticlesConfig',
-    'comments.apps.CommentsConfig',
-    'likes.apps.LikesConfig',
 ]
 
 SITE_ID = 1
@@ -154,7 +154,7 @@ REST_FRAMEWORK = {
 }
 
 
-# REST Auth - Simplified
+# REST Auth
 REST_AUTH = {
     'USE_JWT': True,
     'JWT_AUTH_COOKIE': 'jwt-auth',
@@ -164,7 +164,8 @@ REST_AUTH = {
     'USER_DETAILS_SERIALIZER': 'users.serializers.CustomUserDetailsSerializer',
 }
 
-# Simple JWT - Cleaned up
+
+# Simple JWT
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),

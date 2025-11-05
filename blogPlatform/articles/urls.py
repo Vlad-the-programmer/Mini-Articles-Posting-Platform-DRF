@@ -5,6 +5,7 @@ from .views import ArticleViewSet
 router = DefaultRouter()
 router.register(r'articles', ArticleViewSet, basename='articles')
 
+
 urlpatterns = [
     path('', include(router.urls)),
 ]

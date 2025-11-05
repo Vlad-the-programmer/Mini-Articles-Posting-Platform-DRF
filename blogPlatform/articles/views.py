@@ -1,7 +1,6 @@
 from rest_framework import viewsets
-from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.db.models import Count
 
 from .models import Article
@@ -74,8 +73,8 @@ class ArticleViewSet(viewsets.ModelViewSet):
         instance = self.get_object()
 
         # Manually add counts to instance for serializer
-        instance.likes_count = instance.likes.count()
-        instance.comments_count = instance.comments.count()
+        instance.likes_count = instance.get_likes_count()
+        instance.comments_count = instance.get_comments_count()
 
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
