@@ -1,6 +1,6 @@
 
 ### Custom ###
-commands.txt
+../commands.txt
 
 ### Django ###
 *.log

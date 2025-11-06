@@ -1,6 +1,6 @@
 
 ### Custom ###
-commands.txt
+../commands.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

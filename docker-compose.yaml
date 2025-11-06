@@ -4,33 +4,58 @@ services:
   web:
     build:
       context: .
+      dockerfile: Dockerfile
     container_name: drf_app
     command: >
-      sh -c "python blogPlatform/manage.py migrate &&
-             python blogPlatform/manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
     working_dir: /app
     ports:
-      - "8000:8000"
+      - "${APP_PORT:-8000}:8000"
     env_file:
       - .env
     environment:
-      - PYTHONPATH=/app:/app/blogPlatform
+      - PYTHONPATH=/app
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_HOST=${POSTGRES_HOST:-db}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-blogdb}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   db:
     image: postgres:15
     container_name: postgres_db
     env_file:
       - .env
+    environment:
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_HOST=${POSTGRES_HOST:-db}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-blogdb}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5434:${POSTGRES_PORT:-5432}"
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 networks:
   app-network:
