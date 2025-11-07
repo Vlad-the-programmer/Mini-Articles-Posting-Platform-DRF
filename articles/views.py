@@ -246,6 +246,10 @@ class ArticleViewSet(viewsets.ModelViewSet):
             return ArticleUpdateSerializer
         return ArticleDetailSerializer
 
+    def perform_create(self, serializer):
+        """Automatically assign the authenticated user as the article author"""
+        serializer.save(author=self.request.user)
+
     def get_queryset(self):
         """Optimize queryset based on action"""
         # Incl published articles only

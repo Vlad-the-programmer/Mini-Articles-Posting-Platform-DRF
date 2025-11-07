@@ -164,12 +164,6 @@ REST_AUTH = {
 }
 
 
-# # Add these CSRF settings
-# CSRF_COOKIE_SAMESITE = 'Lax'
-# CSRF_COOKIE_HTTPONLY = False  # Allow JavaScript to read if needed
-# CSRF_USE_SESSIONS = False
-
-
 # Simple JWT
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': (timedelta(days=1) if DEBUG else timedelta(minutes=60)),

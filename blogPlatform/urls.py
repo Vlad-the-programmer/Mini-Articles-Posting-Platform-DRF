@@ -3,7 +3,7 @@ from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 
 from articles.urls import router as articles_router
-# from comments.urls import router as comments_router
+from comments.urls import router as comments_router
 from likes.urls import router as likes_router
 
 
@@ -21,5 +21,5 @@ urlpatterns = [
 
 
 urlpatterns += articles_router.urls
-# urlpatterns += comments_router.urls
+urlpatterns += comments_router.urls
 urlpatterns += likes_router.urls

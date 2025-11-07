@@ -20,3 +20,8 @@ class ArticleFilter(filters.FilterSet):
                 queryset = queryset.filter(tags__icontains=tag)
         return queryset
 
+    @property
+    def qs(self):
+        """Ensure we only return non-deleted articles"""
+        return super().qs.filter(is_deleted=False)
+

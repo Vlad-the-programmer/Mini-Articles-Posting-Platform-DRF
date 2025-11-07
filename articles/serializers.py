@@ -5,6 +5,7 @@ from drf_spectacular.types import OpenApiTypes
 
 from .models import Article
 
+
 User = get_user_model()
 
 
@@ -252,16 +253,6 @@ class ArticleCreateSerializer(serializers.ModelSerializer):
                 if len(tag) > 50:
                     raise serializers.ValidationError(f"Tag '{tag}' is too long (max 50 characters)")
         return value
-
-    def create(self, validated_data):
-        """
-        Create article with current user as author.
-
-        Automatically assigns the authenticated user as the article author
-        and creates the article record in the database.
-        """
-        user = self.context['request'].user
-        return Article.objects.create(author=user, **validated_data)
 
 
 @extend_schema_serializer(
