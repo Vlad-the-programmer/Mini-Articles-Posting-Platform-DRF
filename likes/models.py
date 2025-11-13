@@ -12,13 +12,13 @@ class Like(BaseModel):
     """Like model for user likes on articles"""
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name='likes',
         db_index=True
     )
     article = models.ForeignKey(
         "articles.Article",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name='likes',
         db_index=True
     )

@@ -14,13 +14,17 @@ class Comment(BaseModel):
     """Comment model for user comments on articles"""
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
         related_name='comments',
         db_index=True
     )
     article = models.ForeignKey(
         "articles.Article",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
         related_name='comments',
         db_index=True
     )

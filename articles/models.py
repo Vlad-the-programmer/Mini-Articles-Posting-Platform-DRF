@@ -14,7 +14,7 @@ class Article(BaseModel):
     """Article model representing blog posts"""
     author = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name='articles',
         db_index=True
     )
